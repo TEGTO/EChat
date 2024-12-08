@@ -1,0 +1,21 @@
+<div class="h-screen flex items-start justify-center">
+    <div class="flex gap-2 pt-10">
+        <form id="registrationForm"
+            class="max-w-sm mx-auto flex flex-col gap-2 rounded-lg shadow-lg bg-slate-200/20 p-10"
+            [formGroup]="formGroup" (ngSubmit)="registerUser()">
+
+            <div class="flex gap-2">
+                <input type="text" id="name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700"
+                    placeholder="Enter Name" required maxlength="100" [formControl]="nameInput" />
+                <button type="submit" form="registrationForm"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-sm w-full sm:w-auto px-5 py-2 text-center">Join</button>
+            </div>
+
+            <div class="text-sm text-red-600" *ngIf="validateInputField(nameInput).hasError">
+                {{validateInputField(nameInput).message}}
+            </div>
+
+        </form>
+    </div>
+</div>

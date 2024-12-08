@@ -1,0 +1,11 @@
+<div class="root">
+
+    <body>
+        @if (isAuthenticated$ | async) {
+        <router-outlet></router-outlet>
+        }
+        @else {
+        <app-auth-view></app-auth-view>
+        }
+    </body>
+</div>

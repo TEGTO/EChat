@@ -1,0 +1,43 @@
+<div class="chat-wrapper h-screen flex items-center justify-center py-4">
+    <mat-card class="mx-auto h-full w-full max-w-xl min-h-60">
+        <mat-card-header class="bg-green-600 rounded-t-lg text-white">
+            <div class="chat-wrapper__header">
+                <div class="header__avatar">
+                    <span class="material-icons">sms</span>
+                </div>
+                <span class="font-bold text-xl">Chat</span>
+            </div>
+        </mat-card-header>
+        <mat-card-content class="bg-slate-200/20 h-full min-h-16">
+            <div class="pt-4 h-full">
+                <cdk-virtual-scroll-viewport #scroller [itemSize]="itemHeight" class="chat-wrapper__content">
+                    <ng-container *cdkVirtualFor="let message of messages$ | async as messages; trackBy: trackByIndex">
+                        <div class="flex px-2" [ngClass]="{'justify-end': message.isSent}">
+                            <div [ngClass]="{'sent-message': message.isSent, 'received-message': !message.isSent}">
+                                <div class="flex flex-col">
+                                    <span class="user-name">
+                                        {{message.userNname}}
+                                    </span>
+                                    <span>
+                                        {{message.text}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </cdk-virtual-scroll-viewport>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="px-3 py-3 flex items-center w-full">
+                <input type="text" [(ngModel)]="messageText"
+                    class="block w-full rounded-md border-0 py-3 pl-3 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-mb sm:leading-6"
+                    placeholder="Write a message..." (keydown.enter)="sendMessage()">
+                <button class="ml-2 text-green-600 hover:text-green-700 disabled:text-green-800 flex items-center"
+                    (click)="sendMessage()">
+                    <span class="material-icons">send</span>
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</div>

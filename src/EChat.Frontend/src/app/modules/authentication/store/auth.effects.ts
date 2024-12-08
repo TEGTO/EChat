@@ -18,8 +18,11 @@ export class AuthEffects {
             ofType(signInUser),
             mergeMap((action) => {
 
+                const primitiveId = (Math.random() + 1).toString(36).substring(2);
+
                 const authData: AuthData = {
-                    userName: action.name
+                    userName: action.name,
+                    id: primitiveId
                 };
 
                 this.localStorage.setItem(this.storageAuthDataKey, JSON.stringify(authData));

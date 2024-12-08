@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { getAuthData, selectIsAuthenticated } from '../../../authentication';
+import { getAuthData, logOutUser, selectIsAuthenticated } from '../../../authentication';
 
 @Component({
   selector: 'app-main-view',
@@ -17,5 +17,9 @@ export class MainViewComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(getAuthData());
     this.isAuthenticated$ = this.store.select(selectIsAuthenticated);
+  }
+
+  logOut() {
+    this.store.dispatch(logOutUser());
   }
 }

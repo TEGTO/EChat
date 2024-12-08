@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: "", component: MainViewComponent,
     children: [
+      {
+        path: "",
+        loadChildren: () => import('../chat/chat.module').then(m => m.ChatModule),
+      },
     ],
   },
   { path: '**', redirectTo: '' }
@@ -29,7 +34,8 @@ const routes: Routes = [
     BrowserAnimationsModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
-    AuthenticationModule
+    AuthenticationModule,
+    MatButtonModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: CustomErrorHandler },

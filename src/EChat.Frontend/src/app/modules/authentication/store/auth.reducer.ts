@@ -6,10 +6,12 @@ import { getAuthDataSuccess, logOutUserSuccess, signInUserFailure, signInUserSuc
 export interface AuthState {
     isAuthenticated: boolean,
     userName: string | null,
+    id: string | null
 }
 const initialAuthState: AuthState = {
     isAuthenticated: false,
     userName: null,
+    id: null
 };
 
 export const authReducer = createReducer(
@@ -19,6 +21,7 @@ export const authReducer = createReducer(
         ...initialAuthState,
         isAuthenticated: true,
         userName: authData.userName,
+        id: authData.id
     })),
     on(signInUserFailure, (state) => ({
         ...state,
@@ -28,6 +31,7 @@ export const authReducer = createReducer(
         ...initialAuthState,
         isAuthenticated: true,
         userName: authData.userName,
+        id: authData.id
     })),
     on(signInUserFailure, (state) => ({
         ...initialAuthState,

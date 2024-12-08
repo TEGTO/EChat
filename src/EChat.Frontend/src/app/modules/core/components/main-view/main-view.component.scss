@@ -1,0 +1,13 @@
+.logout-button {
+    position: fixed;
+    left: 1.5rem;
+    top: 1.5rem;
+    z-index: 1;
+    scale: 1.1;
+
+    .material-icons {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0.3rem;
+    }
+}

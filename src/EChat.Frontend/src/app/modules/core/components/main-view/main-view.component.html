@@ -2,6 +2,9 @@
 
     <body>
         @if (isAuthenticated$ | async) {
+        <button mat-icon-button class="logout-button" (click)="logOut()">
+            <span class="material-icons !text-white">logout</span>
+        </button>
         <router-outlet></router-outlet>
         }
         @else {

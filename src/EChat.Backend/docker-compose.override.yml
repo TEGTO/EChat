@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  chatapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=http://+:8080;
+      - ASPNETCORE_HTTP_PORTS=8080
+      - AllowedCORSOrigins=${AllowedCORSOrigins}
+      - UseCORS=${UseCORS}
+      - ConnectionStrings__MessageDb=${ConnectionStrings__MessageDb}
+      - EFCreateDatabase=${EFCreateDatabase}
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

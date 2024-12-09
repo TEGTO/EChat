@@ -4,7 +4,7 @@ import { receiveMessageFailure, receiveMessageSuccess } from "..";
 
 export interface ChatMessage {
     text: string;
-    userNname: string;
+    userName: string;
     isSent: boolean;
 }
 

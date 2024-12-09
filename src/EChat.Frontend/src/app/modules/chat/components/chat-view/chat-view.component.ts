@@ -2,7 +2,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ChangeDetectionStrategy, Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
-import { ChatMessage, selectChatMessages, sendMessage } from '../..';
+import { ChatMessage, selectChatMessages, sendMessage, startMessageReceiving } from '../..';
 
 @Component({
   selector: 'app-chat-view',
@@ -24,6 +24,9 @@ export class ChatViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.store.dispatch(startMessageReceiving());
+
     this.messages$ = this.store.select(selectChatMessages).pipe(
       tap(() => {
         this.scrollToBottom();
@@ -35,7 +38,7 @@ export class ChatViewComponent implements OnInit {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         if (this.viewport) {
-          const lastIndex = this.viewport.getDataLength() - 1;
+          const lastIndex = this.viewport.getDataLength();
           this.viewport.scrollToIndex(lastIndex, 'smooth');
         }
       }, 0);
@@ -44,7 +47,6 @@ export class ChatViewComponent implements OnInit {
 
   sendMessage() {
     if (this.messageText.trim()) {
-
       this.store.dispatch(sendMessage({ text: this.messageText }));
       this.messageText = '';
     }

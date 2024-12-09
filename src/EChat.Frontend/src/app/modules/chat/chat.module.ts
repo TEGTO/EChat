@@ -7,7 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ChatEffects, chatReducer, ChatViewComponent } from '.';
+import { ChatEffects, chatReducer, ChatViewComponent, SignalChat, SignalChatService } from '.';
 
 const routes: Routes = [
   {
@@ -30,6 +30,10 @@ const routes: Routes = [
     FormsModule,
     StoreModule.forFeature('chat', chatReducer),
     EffectsModule.forFeature([ChatEffects]),
-  ]
+  ],
+  providers:
+    [
+      { provide: SignalChat, useClass: SignalChatService },
+    ]
 })
 export class ChatModule { }

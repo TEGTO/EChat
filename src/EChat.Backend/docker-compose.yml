@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  chatapi:
+    container_name: echat-chatapi
+    image: ${DOCKER_REGISTRY-}chatapi
+    build:
+      context: .
+      dockerfile: ChatApi/Dockerfile
+    ports: 
+      - 7148:8080
+    networks:
+      - backend-net
+
+  db:
+    container_name: echat-db
+    image: mcr.microsoft.com/mssql/server
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SA_PASSWORD}
+    ports:
+      - 1433:1433
+    volumes:
+      - ms-sql-test-volume:/var/opt/mssql
+    networks:
+      - backend-net
+
+volumes:
+  ms-sql-test-volume:
+
+networks:
+  backend-net:
+

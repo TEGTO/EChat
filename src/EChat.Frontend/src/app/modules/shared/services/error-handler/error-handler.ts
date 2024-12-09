@@ -5,6 +5,5 @@ import { Injectable } from "@angular/core";
     providedIn: 'root'
 })
 export abstract class ErrorHandler {
-    abstract handleApiError(error: any): string;
-    abstract handleError(error: any): string;
+    abstract handleHubError(error: any): string;
 }

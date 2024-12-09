@@ -1,5 +1,6 @@
 using ChatApi;
 using ChatApi.Data;
+using ChatApi.Data.Repository;
 using ChatApi.Hubs;
 using DatabaseControl;
 
@@ -32,9 +33,16 @@ builder.Services.AddCors(options =>
     });
 });
 
+#region
+
+builder.Services.AddSingleton<IMessageRepository, MessageRepository>();
+
+#endregion
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddSignalR();
 
@@ -45,12 +53,6 @@ app.UseCors(corsPolicy);
 if (app.Configuration[Configuration.EF_CREATE_DATABASE] == "true")
 {
     await app.ConfigureDatabaseAsync<MessageDbContext>(CancellationToken.None);
-}
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

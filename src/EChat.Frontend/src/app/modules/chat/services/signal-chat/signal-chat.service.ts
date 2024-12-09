@@ -17,9 +17,19 @@ export class SignalChatService implements SignalChat {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(environment.chatHub)
       .build();
+  }
 
+  startConnection() {
     this.hubConnection.start().catch((error: any) => {
       this.errorHandler.handleHubError(error);
+    });
+  }
+
+  receiveAllMessages(): Observable<Message[]> {
+    return new Observable<Message[]>((observer) => {
+      this.hubConnection.on('LoadMessages', (messages: Message[]) => {
+        observer.next(messages);
+      });
     });
   }
 

@@ -7,6 +7,18 @@ export const sendMessage = createAction(
     props<{ text: string }>()
 );
 
+export const receiveAllMessages = createAction(
+    '[Chat] Receive All Messages'
+);
+export const receiveAllMessagesSuccess = createAction(
+    '[Chat] Receive All Messages Success',
+    props<{ chatMessages: ChatMessage[] }>()
+);
+export const receiveAllMessagesFailure = createAction(
+    '[Chat] Receive All Messages Failure',
+    props<{ error: any }>()
+);
+
 export const startMessageReceiving = createAction(
     '[Chat] Receive Message'
 );

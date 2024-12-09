@@ -2,5 +2,5 @@ export const environment =
 {
     production: false,
     ecryptionSecretKey: "encryption-secret-key",
-    chatHub: "https://localhost:44302/chathub",
+    chatHub: "http://localhost:7148/chathub",
 };

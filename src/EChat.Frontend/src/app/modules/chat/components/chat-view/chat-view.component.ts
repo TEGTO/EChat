@@ -2,7 +2,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ChangeDetectionStrategy, Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
-import { ChatMessage, selectChatMessages, sendMessage, startMessageReceiving } from '../..';
+import { ChatMessage, receiveAllMessages, selectChatMessages, sendMessage, startMessageReceiving } from '../..';
 
 @Component({
   selector: 'app-chat-view',
@@ -24,22 +24,31 @@ export class ChatViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.store.dispatch(receiveAllMessages());
     this.store.dispatch(startMessageReceiving());
 
     this.messages$ = this.store.select(selectChatMessages).pipe(
-      tap(() => {
-        this.scrollToBottom();
+      tap((messages) => {
+        if (this.isUserNearBottom()) {
+          this.scrollToBottom(messages.length);
+        }
       })
     );
   }
 
-  private scrollToBottom() {
+  private isUserNearBottom(): boolean {
+    if (!this.viewport) return false;
+
+    const scrollOffset = this.viewport.measureScrollOffset('bottom');
+    const threshold = 5 * this.itemHeight;
+    return scrollOffset <= threshold;
+  }
+
+  private scrollToBottom(messageAmount: number) {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         if (this.viewport) {
-          const lastIndex = this.viewport.getDataLength();
-          this.viewport.scrollToIndex(lastIndex, 'smooth');
+          this.viewport.scrollToIndex(messageAmount - 1, 'smooth');
         }
       }, 0);
     });

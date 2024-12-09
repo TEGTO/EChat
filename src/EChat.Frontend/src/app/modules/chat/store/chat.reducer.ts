@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createReducer, on } from "@ngrx/store";
-import { receiveMessageFailure, receiveMessageSuccess } from "..";
+import { receiveAllMessagesFailure, receiveAllMessagesSuccess, receiveMessageFailure, receiveMessageSuccess } from "..";
 
 export interface ChatMessage {
     text: string;
@@ -19,6 +19,16 @@ const initialChatState: ChatState = {
 
 export const chatReducer = createReducer(
     initialChatState,
+
+    on(receiveAllMessagesSuccess, (state, { chatMessages }) => ({
+        ...state,
+        messages: chatMessages,
+        error: null
+    })),
+    on(receiveAllMessagesFailure, (state, { error }) => ({
+        ...initialChatState,
+        error: error
+    })),
 
     on(receiveMessageSuccess, (state, { chatMessage }) => ({
         ...state,

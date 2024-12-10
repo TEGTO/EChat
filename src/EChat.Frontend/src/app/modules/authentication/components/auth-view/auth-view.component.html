@@ -12,7 +12,7 @@
                     class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none font-medium rounded-lg shadow-lg text-sm w-full sm:w-auto px-5 py-2 text-center">Join</button>
             </div>
 
-            <div class="text-sm text-red-600" *ngIf="validateInputField(nameInput).hasError">
+            <div class="text-sm text-red-600" id="validation" *ngIf="validateInputField(nameInput).hasError">
                 {{validateInputField(nameInput).message}}
             </div>
 

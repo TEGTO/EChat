@@ -1,4 +1,3 @@
-
 import { createAction, props } from "@ngrx/store";
 import { AuthData } from "../models/authData";
 

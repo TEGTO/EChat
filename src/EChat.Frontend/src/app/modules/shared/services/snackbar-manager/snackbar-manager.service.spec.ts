@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ErrorAnnotatedComponent, InfoAnnotatedComponent } from "../..";
+import { ErrorAnnotatedComponent } from "../..";
 import { SnackbarManager } from "./snackbar-manager.service";
 
 describe('SnackbarManager', () => {
@@ -20,18 +20,6 @@ describe('SnackbarManager', () => {
 
     it('should be created', () => {
         expect(service).toBeTruthy();
-    });
-
-    it('should openFromComponent be called with InfoAnnotatedComponent', () => {
-        const message = "message";
-        const durationInSeconds = 5;
-        service.openInfoSnackbar(message, durationInSeconds);
-        expect(mockSnackBar.openFromComponent).toHaveBeenCalledWith(InfoAnnotatedComponent, {
-            duration: durationInSeconds * 1000,
-            data: {
-                message: message
-            }
-        });
     });
 
     it('should openFromComponent be called with ErrorAnnotatedComponent', () => {

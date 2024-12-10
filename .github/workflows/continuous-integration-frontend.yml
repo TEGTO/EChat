@@ -1,0 +1,67 @@
+name: Continuous Integration Frontend
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/EChat.Frontend/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "src/EChat.Frontend/**"
+
+permissions: write-all
+
+env:
+  NODE_VERSION: "20.x"
+
+jobs:
+  run-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
+
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm install --force
+        working-directory: src/EChat.Frontend
+
+      - name: Run tests with coverage
+        run: npm run test:ci -- --code-coverage
+        working-directory: src/EChat.Frontend
+
+      - name: Upload code coverage
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: src/EChat.Frontend/coverage
+
+      - name: Build Angular Project
+        run: npm run build -- --configuration production
+        working-directory: src/EChat.Frontend
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-build
+          path: src/EChat.Frontend/dist

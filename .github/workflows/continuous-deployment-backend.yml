@@ -1,0 +1,64 @@
+name: Continuous Deployment Backend
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/EChat.Backend/**"
+
+env:
+  DOTNET_VERSION: "8.0.x"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        api:
+          - name: "Facility Area Manager API"
+            path: "ChatApi"
+            azure_app_name: "echat-api-germanywestcentral-001"
+            publish_secret: CHAT_API_PUBLISH_SECRET
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache .NET packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: |
+          dotnet restore src/EChat.Backend/EChat.Backend.sln
+
+      - name: Build projects
+        run: |
+          dotnet build src/EChat.Backend/EChat.Backend.sln
+
+      - name: Run tests
+        run: |
+          dotnet test src/EChat.Backend/EChat.Backend.sln
+
+      - name: Publish
+        run: dotnet publish src/EChat.Backend/${{ matrix.api.path }} --configuration Release --output ./src/EChat.Backend/${{ matrix.api.path }}/publish
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ matrix.api.azure_app_name }}
+          slot-name: "production"
+          publish-profile: ${{ secrets[matrix.api.publish_secret] }}
+          package: ./src/EChat.Backend/${{ matrix.api.path }}/publish

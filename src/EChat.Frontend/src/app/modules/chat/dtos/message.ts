@@ -4,6 +4,16 @@ export interface Message {
     name: string;
     text: string;
     userId: string;
+    sentiment: string;
+}
+
+export function createDefaultMessage(): Message {
+    return {
+        text: "",
+        name: "",
+        userId: "",
+        sentiment: ""
+    };
 }
 
 export function mapMessageToChatMessage(message: Message, userId: string): ChatMessage {
@@ -13,5 +23,6 @@ export function mapMessageToChatMessage(message: Message, userId: string): ChatM
         text: message.text,
         userName: message.name,
         isSent: isSent,
+        sentiment: message.sentiment
     };
 }

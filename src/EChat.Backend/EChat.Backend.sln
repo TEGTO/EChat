@@ -3,13 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApi", "ChatApi\ChatApi.csproj", "{B8BB1923-CFB5-4B98-A92E-1DFD7184792A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApi", "ChatApi\ChatApi.csproj", "{B8BB1923-CFB5-4B98-A92E-1DFD7184792A}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CEC79CEB-F49D-4EE5-B631-9DCC320BC152}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9DBE0E1B-62BD-4461-859A-2E49D302CDE3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseControl", "DatabaseControl\DatabaseControl.csproj", "{EC8D41D7-5F4D-43CE-9553-7BE1BBE4716B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{66381285-D5E3-4F02-B520-7698B71695F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApiTests", "..\..\test\EChat.UnitTests\ChatApiTests\ChatApiTests.csproj", "{474A38B1-786A-46E4-810B-935AB0074582}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseControlTests", "..\..\test\EChat.UnitTests\DatabaseControlTests\DatabaseControlTests.csproj", "{FD75D62B-EB8B-43F3-A63B-00EAD3D418DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +35,22 @@ Global
 		{EC8D41D7-5F4D-43CE-9553-7BE1BBE4716B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC8D41D7-5F4D-43CE-9553-7BE1BBE4716B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC8D41D7-5F4D-43CE-9553-7BE1BBE4716B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{474A38B1-786A-46E4-810B-935AB0074582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{474A38B1-786A-46E4-810B-935AB0074582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{474A38B1-786A-46E4-810B-935AB0074582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{474A38B1-786A-46E4-810B-935AB0074582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD75D62B-EB8B-43F3-A63B-00EAD3D418DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD75D62B-EB8B-43F3-A63B-00EAD3D418DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD75D62B-EB8B-43F3-A63B-00EAD3D418DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD75D62B-EB8B-43F3-A63B-00EAD3D418DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EC8D41D7-5F4D-43CE-9553-7BE1BBE4716B} = {9DBE0E1B-62BD-4461-859A-2E49D302CDE3}
+		{474A38B1-786A-46E4-810B-935AB0074582} = {66381285-D5E3-4F02-B520-7698B71695F7}
+		{FD75D62B-EB8B-43F3-A63B-00EAD3D418DD} = {66381285-D5E3-4F02-B520-7698B71695F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E326DA13-2FBF-40FA-A20D-956F6E89A6F4}

@@ -21,6 +21,17 @@
                                     <span>
                                         {{message.text}}
                                     </span>
+                                    <span [ngClass]="{
+                                            'text-green-600': message.sentiment === 'Positive',
+                                            'text-red-600': message.sentiment === 'Negative',
+                                            'text-gray-500': message.sentiment === 'Neutral' ||  message.sentiment === 'Unknown'
+                                          }">
+                                        {{ message.sentiment }}
+                                        <span *ngIf="message.sentiment === 'Positive'">😊</span>
+                                        <span *ngIf="message.sentiment === 'Negative'">😢</span>
+                                        <span *ngIf="message.sentiment === 'Neutral'">😐</span>
+                                        <span *ngIf="message.sentiment === 'Unknown'">🚫</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>

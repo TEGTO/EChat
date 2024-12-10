@@ -1,8 +1,8 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { ChangeDetectionStrategy, Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
-import { ChatMessage, receiveAllMessages, selectChatMessages, sendMessage, startMessageReceiving } from '../..';
+import { ChatMessage, selectChatMessages, sendMessage, startMessageReceiving, stopMessageReceiving } from '../..';
 
 @Component({
   selector: 'app-chat-view',
@@ -10,7 +10,7 @@ import { ChatMessage, receiveAllMessages, selectChatMessages, sendMessage, start
   styleUrl: './chat-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatViewComponent implements OnInit {
+export class ChatViewComponent implements OnInit, OnDestroy {
   @ViewChild(CdkVirtualScrollViewport) viewport!: CdkVirtualScrollViewport;
 
   readonly itemHeight = 50;
@@ -23,8 +23,8 @@ export class ChatViewComponent implements OnInit {
     private readonly store: Store,
   ) { }
 
+
   ngOnInit() {
-    this.store.dispatch(receiveAllMessages());
     this.store.dispatch(startMessageReceiving());
 
     this.messages$ = this.store.select(selectChatMessages).pipe(
@@ -34,6 +34,10 @@ export class ChatViewComponent implements OnInit {
         }
       })
     );
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(stopMessageReceiving());
   }
 
   private isUserNearBottom(): boolean {

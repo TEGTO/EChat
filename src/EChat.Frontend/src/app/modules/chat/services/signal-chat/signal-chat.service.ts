@@ -20,9 +20,18 @@ export class SignalChatService implements SignalChat {
   }
 
   startConnection() {
-    this.hubConnection.start().catch((error: any) => {
-      this.errorHandler.handleHubError(error);
-    });
+    if (this.hubConnection.state === signalR.HubConnectionState.Disconnected) {
+      this.hubConnection.start().catch((error: any) => {
+        this.errorHandler.handleHubError(error);
+      });
+    }
+  }
+  stopConnection() {
+    if (this.hubConnection.state === signalR.HubConnectionState.Connected) {
+      this.hubConnection.stop().catch((error: any) => {
+        this.errorHandler.handleHubError(error);
+      });
+    }
   }
 
   receiveAllMessages(): Observable<Message[]> {

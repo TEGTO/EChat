@@ -6,6 +6,7 @@ export interface ChatMessage {
     text: string;
     userName: string;
     isSent: boolean;
+    sentiment: string;
 }
 
 export interface ChatState {

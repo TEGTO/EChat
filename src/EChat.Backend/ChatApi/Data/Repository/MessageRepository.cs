@@ -12,14 +12,14 @@ namespace ChatApi.Data.Repository
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<MessageEntity>> GetMessagesAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<MessageEntity>> GetMessagesAsync(CancellationToken cancellationToken = default)
         {
             var queryable = await repository.GetQueryableAsync<MessageEntity>(cancellationToken);
 
-            return await queryable.ToListAsync(cancellationToken);
+            return await queryable.OrderBy(x => x.CreatedAt).ToListAsync(cancellationToken);
         }
 
-        public async Task AddMessageAsync(MessageEntity message, CancellationToken cancellationToken)
+        public async Task AddMessageAsync(MessageEntity message, CancellationToken cancellationToken = default)
         {
             await repository.AddAsync(message, cancellationToken);
         }

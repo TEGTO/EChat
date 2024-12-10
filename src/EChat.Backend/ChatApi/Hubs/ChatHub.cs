@@ -2,6 +2,7 @@
 using ChatApi.Data;
 using ChatApi.Data.Repository;
 using ChatApi.Dtos;
+using ChatApi.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ChatApi.Hubs
@@ -10,16 +11,18 @@ namespace ChatApi.Hubs
     {
         private readonly IMessageRepository messageRepository;
         private readonly IMapper mapper;
+        private readonly ITextAnalytics textAnalytics;
 
-        public ChatHub(IMessageRepository messageRepository, IMapper mapper)
+        public ChatHub(IMessageRepository messageRepository, IMapper mapper, ITextAnalytics textAnalytics)
         {
             this.messageRepository = messageRepository;
             this.mapper = mapper;
+            this.textAnalytics = textAnalytics;
         }
 
         public override async Task OnConnectedAsync()
         {
-            var allMessages = await messageRepository.GetMessagesAsync(CancellationToken.None);
+            var allMessages = await messageRepository.GetMessagesAsync();
 
             await Clients.Caller.LoadMessages(allMessages.Select(mapper.Map<Message>));
 
@@ -28,6 +31,10 @@ namespace ChatApi.Hubs
 
         public async Task SendMessage(Message message)
         {
+            var sentimentResult = await textAnalytics.AnalyzeSentimentAsync(message.Text);
+
+            message.Sentiment = sentimentResult;
+
             await SaveMessageInDb(message);
 
             await Clients.All.ReceiveMessage(message);
@@ -35,7 +42,7 @@ namespace ChatApi.Hubs
 
         private async Task SaveMessageInDb(Message message)
         {
-            await messageRepository.AddMessageAsync(mapper.Map<MessageEntity>(message), CancellationToken.None);
+            await messageRepository.AddMessageAsync(mapper.Map<MessageEntity>(message));
         }
     }
 }

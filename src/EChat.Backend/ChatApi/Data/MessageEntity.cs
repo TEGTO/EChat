@@ -13,5 +13,9 @@ namespace ChatApi.Data
         public string? Text { get; set; }
         [Required]
         public string UserId { get; set; } = default!;
+        [Required]
+        public DateTime CreatedAt { get; set; }
+        [Required]
+        public string Sentiment { get; set; } = default!;
     }
 }

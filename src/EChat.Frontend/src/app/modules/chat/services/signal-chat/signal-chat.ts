@@ -6,4 +6,5 @@ export abstract class SignalChat {
     abstract sendMessage(message: Message): void;
     abstract startConnection(): void;
     abstract receiveAllMessages(): Observable<Message[]>;
+    abstract stopConnection(): void;
 }
